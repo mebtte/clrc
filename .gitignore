@@ -1,0 +1,9 @@
+# node & npm
+node_modules/
+package-lock.json
+
+# typescript/parcel dist
+dist/
+
+# parcel
+.cache/
