@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --declaration",
     "prepublish": "npm run build",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
