@@ -27,6 +27,10 @@ const Wrapper = ({
     return () => window.clearTimeout(timer);
   }, [lrc, sortByStartTime]);
 
+  useEffect(() => {
+    console.log(lrcObject);
+  }, [lrcObject]);
+
   return (
     <Style>
       <JsonView src={lrcObject} />

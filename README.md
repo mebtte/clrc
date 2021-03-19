@@ -27,14 +27,56 @@ invalid line
 [00:58.22]飞到了路崖边永不回来
 `;
 
-parse(lrc); // { metadatas, metadata, lyrics, invalidLines }
+console.log(parse(lrc));
+```
+
+The output is:
+
+```json
+{
+  "metadatas": [
+    {
+      "lineNumber": 0,
+      "key": "ar",
+      "value": "张叶蕾",
+      "raw": "[ar:张叶蕾]"
+    }
+  ],
+  "metadata": {
+    "ar": "张叶蕾"
+  },
+  "lyrics": [
+    {
+      "lineNumber": 2,
+      "startMillisecond": 54040,
+      "content": "每一辆飞车彻夜向前开",
+      "raw": "[00:54.04]每一辆飞车彻夜向前开"
+    },
+    {
+      "lineNumber": 3,
+      "startMillisecond": 58220,
+      "content": "飞到了路崖边永不回来",
+      "raw": "[00:58.22]飞到了路崖边永不回来"
+    }
+  ],
+  "invalidLines": [
+    {
+      "lineNumber": 1,
+      "raw": "invalid line"
+    },
+    {
+      "lineNumber": 4,
+      "raw": ""
+    }
+  ]
+}
 ```
 
 ## APIs
 
 ### parse(lrcString[, options])
 
-`parse` used for parsing lrc string to json object.
+`parse` used for parsing lrc string to object.
 
 #### Options
 
