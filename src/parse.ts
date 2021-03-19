@@ -1,16 +1,14 @@
-import { MetadataLine, LyricLine, InvalidLine } from './constants';
+import { LrcLine, MetadataLine, LyricLine } from './constants';
 
-export const METADATA_LINE = /^\[.+?:.*?\]$/; // [key:value]
 /**
  * allow multiple time tag
  * [time][time]content
  */
-export const LYRIC_LINE = /^(\[\d+:\d+\.\d+\])+.*$/;
+export const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
+export const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
 
-const METADATA_KEY = /(?<=^\[).+?(?=:)/; // [key:value] --> key
-const METADATA_VALUE = /(?<=:).*(?=\]$)/; // [key:value] --> value
-const LYRIC_TIMES_PART = /^(\[\d+:\d+\.\d+\])+/; // [time][time]content --> [time][time]
-const LYRIC_TIME = /(?<=\[).+?(?=\])/g; // [time1][time2] --> [time1, time2]
+const LYRIC_TIME_PART_SEPARATOR = /(?<=\])(?=\[)/; // ][
+const LYRIC_TIME = /\[(\d+):(\d+)(?:\.(\d+))?\]/; // [00:00.00] or [00:00]
 
 /**
  * parse lrc string
@@ -25,47 +23,63 @@ function parse<Metadata extends { [key: string]: string }>(
     sortByStartTime?: boolean;
   } = {}
 ) {
-  const metadatas: MetadataLine<Metadata, keyof Metadata>[] = [];
-  const metadata: Partial<Metadata> = {};
+  const metadatas: MetadataLine[] = [];
+  // @ts-ignore
+  const metadata: Metadata = {};
 
   let lyrics: LyricLine[] = [];
-  const invalidLines: InvalidLine[] = [];
+  const invalidLines: LrcLine[] = [];
 
   const lines = lrc.split('\n');
   for (let i = 0, { length } = lines; i < length; i += 1) {
     const line = lines[i];
+
+    /** lyric */
+    const lyricMatch = line.match(LYRIC_LINE);
+    if (lyricMatch) {
+      const timesPart = lyricMatch[1]; // [time][time]content --> [time][time]
+      const times = timesPart.split(LYRIC_TIME_PART_SEPARATOR); // [time1][time2] --> [time1], [time2]
+      for (const time of times) {
+        const timeMatch = time.match(LYRIC_TIME);
+        const minute = timeMatch[1];
+        const second = timeMatch[2];
+        const centisecond = timeMatch[3] || '00'; // compatible with [00:00]
+        const centisecondNumber =
+          centisecond.length === 3 ? +centisecond : +centisecond * 10; // // compatible with [00:00.000]
+        lyrics.push({
+          lineNumber: i,
+          startMillisecond:
+            +minute * 60 * 1000 + +second * 1000 + centisecondNumber,
+          content: lyricMatch[2],
+          raw: line,
+        });
+      }
+
+      continue;
+    }
+
     /** metadata */
-    if (METADATA_LINE.test(line)) {
-      const key = line.match(METADATA_KEY)[0] as keyof Metadata; // [key:value] --> key
-      const value = line.match(METADATA_VALUE)[0] as Metadata[typeof key]; // [key:value] --> value
+    const metadataMatch = line.match(METADATA_LINE);
+    if (metadataMatch) {
+      const key = metadataMatch[1];
+      const value = metadataMatch[2];
       metadatas.push({
         lineNumber: i,
         key,
         value,
         raw: line,
       });
+      // @ts-ignore
       metadata[key] = value;
-    } /** lyric */ else if (LYRIC_LINE.test(line)) {
-      const timesPart = line.match(LYRIC_TIMES_PART)[0]; // [time][time]content --> [time][time]
-      const content = line.replace(timesPart, ''); // [time][time]content --> content
-      const times = timesPart.match(LYRIC_TIME); // [time1][time2] --> [time1, time2]
-      for (const time of times) {
-        const [minute, secondAndCentisecond] = time.split(':');
-        const [second, centisecond] = secondAndCentisecond.split('.');
-        lyrics.push({
-          lineNumber: i,
-          startMillisecond:
-            +minute * 60 * 1000 + +second * 1000 + +centisecond * 100,
-          content,
-          raw: line,
-        });
-      }
-    } /** invalid line */ else {
-      invalidLines.push({
-        lineNumber: i,
-        raw: line,
-      });
+
+      continue;
     }
+
+    /** invalid line */
+    invalidLines.push({
+      lineNumber: i,
+      raw: line,
+    });
   }
 
   if (sortByStartTime) {
@@ -74,7 +88,7 @@ function parse<Metadata extends { [key: string]: string }>(
 
   return {
     metadatas,
-    metadata: metadata as Metadata,
+    metadata,
 
     lyrics,
     invalidLines,

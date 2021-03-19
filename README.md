@@ -52,7 +52,7 @@ parse<{ ar: string; by?: string }>(lrc);
 ### Export useful type
 
 ```ts
-import { LrcLine, MetadataLine, LyricLine, InvalidLine } from 'clrc';
+import { LrcLine, MetadataLine, LyricLine } from 'clrc';
 ```
 
 ## License

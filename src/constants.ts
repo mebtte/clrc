@@ -3,17 +3,12 @@ export interface LrcLine {
   raw: string;
 }
 
-export interface MetadataLine<
-  M extends { [key: string]: string },
-  K extends keyof M
-> extends LrcLine {
-  key: K;
-  value: M[K];
+export interface MetadataLine extends LrcLine {
+  key: string;
+  value: string;
 }
 
 export interface LyricLine extends LrcLine {
   startMillisecond: number;
   content: string;
 }
-
-export interface InvalidLine extends LrcLine {}
