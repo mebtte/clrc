@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import demoLrc from './demo_lrc';
+import { DEFAULT_OPTIONS } from '../../src/constants';
+import demoLrc from './lrc';
 import GlobalStyle from './global_style';
 import Textarea from './textarea';
 import JsonView from './json_view';
@@ -20,6 +21,9 @@ const Style = styled.div`
     flex-direction: column;
     > .options {
       margin: 0 10px 30px 10px;
+      > label {
+        display: block;
+      }
     }
   }
 `;
@@ -34,6 +38,14 @@ const App = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => setSortByStartTime(event.target.checked);
 
+  const [trimStart, setTrimStart] = useState(DEFAULT_OPTIONS.trimStart);
+  const onTrimStartChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setTrimStart(event.target.checked);
+
+  const [trimEnd, setTrimEnd] = useState(DEFAULT_OPTIONS.trimEnd);
+  const onTrimEndChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setTrimEnd(event.target.checked);
+
   return (
     <>
       <GlobalStyle />
@@ -45,15 +57,35 @@ const App = () => {
               sortByStartTime
               <input
                 type="checkbox"
-                // @ts-ignore
-                value={sortByStartTime}
+                checked={sortByStartTime}
                 onChange={onSortByStartTimeChange}
+              />
+            </label>
+            <label>
+              trimStart
+              <input
+                type="checkbox"
+                checked={trimStart}
+                onChange={onTrimStartChange}
+              />
+            </label>
+            <label>
+              trimEnd
+              <input
+                type="checkbox"
+                checked={trimEnd}
+                onChange={onTrimEndChange}
               />
             </label>
           </div>
           <Textarea value={lrc} onChange={onLrcChange} autoFocus />
         </div>
-        <JsonView lrc={lrc} sortByStartTime={sortByStartTime} />
+        <JsonView
+          lrc={lrc}
+          sortByStartTime={sortByStartTime}
+          trimStart={trimStart}
+          trimEnd={trimEnd}
+        />
       </Style>
       <Github />
     </>

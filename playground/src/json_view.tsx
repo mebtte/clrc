@@ -13,19 +13,23 @@ const Style = styled.div`
 const Wrapper = ({
   lrc,
   sortByStartTime,
+  trimStart,
+  trimEnd,
 }: {
   lrc: string;
   sortByStartTime: boolean;
+  trimStart: boolean;
+  trimEnd: boolean;
 }) => {
   const [lrcObject, setLrcObject] = useState(parse(lrc));
 
   useEffect(() => {
     const timer = window.setTimeout(
-      () => setLrcObject(parse(lrc, { sortByStartTime })),
+      () => setLrcObject(parse(lrc, { sortByStartTime, trimStart, trimEnd })),
       300
     );
     return () => window.clearTimeout(timer);
-  }, [lrc, sortByStartTime]);
+  }, [lrc, sortByStartTime, trimStart, trimEnd]);
 
   useEffect(() => {
     console.log(lrcObject);

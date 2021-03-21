@@ -80,7 +80,9 @@ The output is:
 
 #### Options
 
-- `sortByStartTime` whether to sort lyrics by start time
+- `sortByStartTime` whether to sort lyrics by start time, default `false`
+- `trimStart` whether to remove start spaces, default `true`
+- `trimEnd` whether to remove end spaces, default `false`
 
 ## Typescript support
 
