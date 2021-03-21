@@ -1,13 +1,14 @@
 export default `[by:mebtte]
-[ar:Greyson Chance]
-[00:25.95]Look at the sun and see the clouds turn to faces in the sky
+ [ar:Greyson Chance]
+[01:17.62]Come with me for a little ride, see the shadows passing by
+ [00:25.95]Look at the sun and see the clouds turn to faces in the sky
+ invalid line
 [00:17.30]Come with me for a little ride, see the shadows passing by
-[00:34.45]We've been awake all night, shattered dreams all around
+ [00:34.45]We've been awake all night, shattered dreams all around  
 [00:42.55]Close your sad, sad eyes we will be safe and sound
 [00:51.80]Come with me for a little ride, see the shadows passing by
 [01:00.13]Look at the sun and see the clouds turn to faces in the sky
 [01:08.84]Daydreaming lightly through the rain, All's forgiven on a summer train
-[01:17.62]Come with me for a little ride, see the shadows passing by
 [01:25.69]Seems we are a thousand miles away from last night
 [01:34.29]As you sigh in my ear, kiss the rain goodbye
 [01:43.27]Come with me for a little ride, see the shadows passing by

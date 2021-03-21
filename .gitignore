@@ -1,6 +1,7 @@
-# node & npm
+# node & npm & pnpm
 node_modules/
 package-lock.json
+pnpm-lock.yaml
 
 # typescript/parcel dist
 dist/

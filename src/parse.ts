@@ -1,4 +1,10 @@
-import { LrcLine, MetadataLine, LyricLine } from './constants';
+import {
+  LrcLine,
+  MetadataLine,
+  LyricLine,
+  Options,
+  DEFAULT_OPTIONS,
+} from './constants';
 
 /**
  * allow multiple time tag
@@ -9,6 +15,8 @@ export const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
 
 const LYRIC_TIME_PART_SEPARATOR = /(?<=\])(?=\[)/; // ][
 const LYRIC_TIME = /\[(\d+):(\d+)(?:\.(\d+))?\]/; // [00:00.00] or [00:00]
+const SPACE_START = /^\s+/;
+const SPACE_END = /\s+$/;
 
 /**
  * parse lrc string
@@ -17,11 +25,10 @@ const LYRIC_TIME = /\[(\d+):(\d+)(?:\.(\d+))?\]/; // [00:00.00] or [00:00]
 function parse<Metadata extends { [key: string]: string }>(
   lrc: string,
   {
-    sortByStartTime = false,
-  }: {
-    /** whether to sort lyrics by start time */
-    sortByStartTime?: boolean;
-  } = {}
+    sortByStartTime = DEFAULT_OPTIONS.sortByStartTime,
+    trimStart = DEFAULT_OPTIONS.trimStart,
+    trimEnd = DEFAULT_OPTIONS.trimEnd,
+  }: Options = {}
 ) {
   const metadatas: MetadataLine[] = [];
   // @ts-ignore
@@ -32,7 +39,15 @@ function parse<Metadata extends { [key: string]: string }>(
 
   const lines = lrc.split('\n');
   for (let i = 0, { length } = lines; i < length; i += 1) {
-    const line = lines[i];
+    const raw = lines[i];
+
+    let line = raw;
+    if (trimStart) {
+      line = line.replace(SPACE_START, '');
+    }
+    if (trimEnd) {
+      line = line.replace(SPACE_END, '');
+    }
 
     /** lyric */
     const lyricMatch = line.match(LYRIC_LINE);
@@ -51,7 +66,7 @@ function parse<Metadata extends { [key: string]: string }>(
           startMillisecond:
             +minute * 60 * 1000 + +second * 1000 + centisecondNumber,
           content: lyricMatch[2],
-          raw: line,
+          raw,
         });
       }
 
@@ -67,7 +82,7 @@ function parse<Metadata extends { [key: string]: string }>(
         lineNumber: i,
         key,
         value,
-        raw: line,
+        raw,
       });
       // @ts-ignore
       metadata[key] = value;
@@ -78,7 +93,7 @@ function parse<Metadata extends { [key: string]: string }>(
     /** invalid line */
     invalidLines.push({
       lineNumber: i,
-      raw: line,
+      raw,
     });
   }
 

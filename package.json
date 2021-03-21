@@ -4,10 +4,11 @@
   "description": "LRC format parser.",
   "main": "dist/index.js",
   "scripts": {
+    "dev": "tsc --declaration --watch",
     "build": "tsc --declaration",
-    "prepublish": "npm run build",
     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
