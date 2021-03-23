@@ -10,8 +10,8 @@ import {
  * allow multiple time tag
  * [time][time]content
  */
-export const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
-export const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
+const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
+const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
 
 const LYRIC_TIME_PART_SEPARATOR = /(?<=\])(?=\[)/; // ][
 const LYRIC_TIME = /\[(\d+):(\d+)(?:\.(\d+))?\]/; // [00:00.00] or [00:00]
