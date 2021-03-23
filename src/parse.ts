@@ -22,7 +22,7 @@ const SPACE_END = /\s+$/;
  * parse lrc string
  * @author mebtte<hi@mebtte.com>
  */
-function parse<Metadata extends { [key: string]: string }>(
+function parse<MetadataKey extends string>(
   lrc: string,
   {
     sortByStartTime = DEFAULT_OPTIONS.sortByStartTime,
@@ -30,9 +30,11 @@ function parse<Metadata extends { [key: string]: string }>(
     trimEnd = DEFAULT_OPTIONS.trimEnd,
   }: Options = {}
 ) {
-  const metadatas: MetadataLine[] = [];
+  const metadatas: MetadataLine<MetadataKey>[] = [];
   // @ts-ignore
-  const metadata: Metadata = {};
+  const metadata: {
+    [key in MetadataKey]?: string;
+  } = {};
 
   let lyrics: LyricLine[] = [];
   const invalidLines: LrcLine[] = [];
@@ -76,7 +78,7 @@ function parse<Metadata extends { [key: string]: string }>(
     /** metadata */
     const metadataMatch = line.match(METADATA_LINE);
     if (metadataMatch) {
-      const key = metadataMatch[1];
+      const key = metadataMatch[1] as MetadataKey;
       const value = metadataMatch[2];
       metadatas.push({
         lineNumber: i,

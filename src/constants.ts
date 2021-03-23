@@ -3,8 +3,8 @@ export interface LrcLine {
   raw: string;
 }
 
-export interface MetadataLine extends LrcLine {
-  key: string;
+export interface MetadataLine<MetadataKey extends string> extends LrcLine {
+  key: MetadataKey;
   value: string;
 }
 
