@@ -1,1 +1,7 @@
+.github/
+.husky/
 playground/
+.eslintignore
+.eslintrc.js
+.lintstagedrc
+.prettierrc
