@@ -98,7 +98,7 @@ parse<'ar' | 'by'>(lrc);
 ### Export useful type
 
 ```ts
-import { LrcLine, MetadataLine, LyricLine } from 'clrc';
+import { LrcLine, MetadataLine, LyricLine, ParseOptions } from 'clrc';
 ```
 
 ## License

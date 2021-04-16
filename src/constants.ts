@@ -13,7 +13,7 @@ export interface LyricLine extends LrcLine {
   content: string;
 }
 
-export type Options = {
+export type ParseOptions = {
   /** whether to sort lyrics by start time */
   sortByStartTime?: boolean;
   /** whether to remove start spaces */
@@ -22,7 +22,7 @@ export type Options = {
   trimEnd?: boolean;
 };
 
-export const DEFAULT_OPTIONS: Options = {
+export const DEFAULT_OPTIONS: ParseOptions = {
   sortByStartTime: false,
   trimStart: true,
   trimEnd: false,

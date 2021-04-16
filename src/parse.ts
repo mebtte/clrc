@@ -2,7 +2,7 @@ import {
   LrcLine,
   MetadataLine,
   LyricLine,
-  Options,
+  ParseOptions,
   DEFAULT_OPTIONS,
 } from './constants';
 
@@ -28,7 +28,7 @@ function parse<MetadataKey extends string>(
     sortByStartTime = DEFAULT_OPTIONS.sortByStartTime,
     trimStart = DEFAULT_OPTIONS.trimStart,
     trimEnd = DEFAULT_OPTIONS.trimEnd,
-  }: Options = {}
+  }: ParseOptions = {}
 ) {
   const metadatas: MetadataLine<MetadataKey>[] = [];
   // @ts-ignore
