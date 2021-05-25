@@ -1,6 +1,6 @@
 {
   "name": "clrc",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "LRC format parser.",
   "main": "dist/index.js",
   "scripts": {

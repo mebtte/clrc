@@ -13,8 +13,7 @@ import {
 const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/;
 const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
 
-const LYRIC_TIME_PART_SEPARATOR = /(?<=\])(?=\[)/; // ][
-const LYRIC_TIME = /\[(\d+):(\d+)(?:\.(\d+))?\]/; // [00:00.00] or [00:00]
+const LYRIC_TIME = /^(\d+):(\d+)(?:\.(\d+))?$/; // 00:00.00 or 00:00
 const SPACE_START = /^\s+/;
 const SPACE_END = /\s+$/;
 
@@ -55,9 +54,9 @@ function parse<MetadataKey extends string>(
     const lyricMatch = line.match(LYRIC_LINE);
     if (lyricMatch) {
       const timesPart = lyricMatch[1]; // [time][time]content --> [time][time]
-      const times = timesPart.split(LYRIC_TIME_PART_SEPARATOR); // [time1][time2] --> [time1], [time2]
+      const times = timesPart.split(']['); // [time1][time2] --> [time1 | time2]
       for (const time of times) {
-        const timeMatch = time.match(LYRIC_TIME);
+        const timeMatch = time.replace(/(\[|\])/g, '').match(LYRIC_TIME);
         const minute = timeMatch[1];
         const second = timeMatch[2];
         const centisecond = timeMatch[3] || '00'; // compatible with [00:00]
