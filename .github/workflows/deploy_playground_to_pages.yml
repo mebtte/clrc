@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
-          node-version: ltx/*
+          node-version: lts/*
 
       - name: build clrc
         run: |
