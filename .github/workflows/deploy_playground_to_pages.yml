@@ -1,26 +1,22 @@
-name: build and deploy playground on gh-pages
 on:
   push:
     branches:
       - master
 jobs:
-  build_and_deploy_playground:
-    name: build and deploy playground
+  deploy_playground_to_pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - name: use node.js@12.x
-        uses: actions/setup-node@main
+      - uses: actions/setup-node@main
         with:
-          node-version: 12.x
+          node-version: ltx/*
 
       - name: build clrc
         run: |
           npm install
           npm run build
-      - name: build playground and deploy on gh-pages
-        env:
-          TOKEN: ${{secrets.TOKEN}}
+
+      - name: build playground and deploy to pages
         run: |
           cd playground
           npm install
@@ -29,8 +25,8 @@ jobs:
           git init
           git config --local user.name mebtte
           git config --local user.email hi@mebtte.com
-          git remote add origin https://$TOKEN@github.com/$GITHUB_REPOSITORY.git
+          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/$GITHUB_REPOSITORY.git
           git switch -c gh-pages
           git add -A
-          git commit -m "build and deploy playground on gp-pages"
+          git commit -m "auto deploy"
           git push origin gh-pages -f
