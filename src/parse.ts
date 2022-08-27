@@ -4,6 +4,7 @@ import {
   LyricLine,
   ParseOptions,
   DEFAULT_OPTIONS,
+  LyricLineWithSecondLrc,
 } from './constants';
 
 /**
@@ -27,6 +28,7 @@ function parse<MetadataKey extends string>(
     sortByStartTime = DEFAULT_OPTIONS.sortByStartTime,
     trimStart = DEFAULT_OPTIONS.trimStart,
     trimEnd = DEFAULT_OPTIONS.trimEnd,
+    arrayLrcContent = DEFAULT_OPTIONS.arrayLrcContent,
   }: ParseOptions = {}
 ) {
   const metadatas: MetadataLine<MetadataKey>[] = [];
@@ -36,6 +38,7 @@ function parse<MetadataKey extends string>(
   } = {};
 
   let lyrics: LyricLine[] = [];
+  const arrayContentLyrics: LyricLineWithSecondLrc[] = [];
   const invalidLines: LrcLine[] = [];
 
   const lines = lrc.split('\n');
@@ -62,11 +65,19 @@ function parse<MetadataKey extends string>(
         const centisecond = timeMatch[3] || '00'; // compatible with [00:00]
         const centisecondNumber =
           centisecond.length === 3 ? +centisecond : +centisecond * 10; // // compatible with [00:00.000]
+
         lyrics.push({
           lineNumber: i,
           startMillisecond:
             +minute * 60 * 1000 + +second * 1000 + centisecondNumber,
           content: lyricMatch[2],
+          raw,
+        });
+        arrayContentLyrics.push({
+          lineNumber: i,
+          startMillisecond:
+            +minute * 60 * 1000 + +second * 1000 + centisecondNumber,
+          content: [lyricMatch[2]],
           raw,
         });
       }
@@ -106,7 +117,7 @@ function parse<MetadataKey extends string>(
     metadatas,
     metadata,
 
-    lyrics,
+    lyrics: arrayLrcContent ? arrayContentLyrics : lyrics,
     invalidLines,
   };
 }

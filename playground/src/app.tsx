@@ -46,6 +46,10 @@ const App = () => {
   const onTrimEndChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTrimEnd(event.target.checked);
 
+  const [arrayLrcContent, setarrayLrcContent] = useState(DEFAULT_OPTIONS.trimEnd);
+  const onArrayLrcContent = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setarrayLrcContent(event.target.checked);
+
   return (
     <>
       <GlobalStyle />
@@ -77,6 +81,14 @@ const App = () => {
                 onChange={onTrimEndChange}
               />
             </label>
+            <label>
+              arrayLrcContent
+              <input
+                type="checkbox"
+                checked={arrayLrcContent}
+                onChange={onArrayLrcContent}
+              />
+            </label>
           </div>
           <Textarea value={lrc} onChange={onLrcChange} autoFocus />
         </div>
@@ -85,6 +97,7 @@ const App = () => {
           sortByStartTime={sortByStartTime}
           trimStart={trimStart}
           trimEnd={trimEnd}
+          arrayLrcContent={arrayLrcContent}
         />
       </Style>
       <Github />

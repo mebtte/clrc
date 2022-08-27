@@ -13,6 +13,11 @@ export interface LyricLine extends LrcLine {
   content: string;
 }
 
+export interface LyricLineWithSecondLrc extends LrcLine {
+  startMillisecond: number;
+  content: string[];
+}
+
 export type ParseOptions = {
   /** whether to sort lyrics by start time */
   sortByStartTime?: boolean;
@@ -20,10 +25,13 @@ export type ParseOptions = {
   trimStart?: boolean;
   /** whether to remove end spaces */
   trimEnd?: boolean;
+  /** change lrc content from `string` to `string[]` */
+  arrayLrcContent?: boolean;
 };
 
 export const DEFAULT_OPTIONS: ParseOptions = {
   sortByStartTime: false,
   trimStart: true,
   trimEnd: false,
+  arrayLrcContent: false,
 };

@@ -15,21 +15,23 @@ const Wrapper = ({
   sortByStartTime,
   trimStart,
   trimEnd,
+  arrayLrcContent
 }: {
   lrc: string;
   sortByStartTime: boolean;
   trimStart: boolean;
   trimEnd: boolean;
+  arrayLrcContent: boolean;
 }) => {
   const [lrcObject, setLrcObject] = useState(parse(lrc));
 
   useEffect(() => {
     const timer = window.setTimeout(
-      () => setLrcObject(parse(lrc, { sortByStartTime, trimStart, trimEnd })),
+      () => setLrcObject(parse(lrc, { sortByStartTime, trimStart, trimEnd, arrayLrcContent })),
       300
     );
     return () => window.clearTimeout(timer);
-  }, [lrc, sortByStartTime, trimStart, trimEnd]);
+  }, [lrc, sortByStartTime, trimStart, trimEnd, arrayLrcContent]);
 
   useEffect(() => {
     console.log(lrcObject);
