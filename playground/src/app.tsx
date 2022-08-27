@@ -46,9 +46,9 @@ const App = () => {
   const onTrimEndChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTrimEnd(event.target.checked);
 
-  const [arrayLrcContent, setarrayLrcContent] = useState(DEFAULT_OPTIONS.trimEnd);
-  const onArrayLrcContent = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setarrayLrcContent(event.target.checked);
+  const [combineSameTimeLrc, setCombineSameTimeLrc] = useState(DEFAULT_OPTIONS.combineSameTimeLrc);
+  const onCombineSameTimeLrc = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setCombineSameTimeLrc(event.target.checked);
 
   return (
     <>
@@ -82,11 +82,11 @@ const App = () => {
               />
             </label>
             <label>
-              arrayLrcContent
+              combineSameTimeLrc
               <input
                 type="checkbox"
-                checked={arrayLrcContent}
-                onChange={onArrayLrcContent}
+                checked={combineSameTimeLrc}
+                onChange={onCombineSameTimeLrc}
               />
             </label>
           </div>
@@ -97,7 +97,7 @@ const App = () => {
           sortByStartTime={sortByStartTime}
           trimStart={trimStart}
           trimEnd={trimEnd}
-          arrayLrcContent={arrayLrcContent}
+          combineSameTimeLrc={combineSameTimeLrc}
         />
       </Style>
       <Github />

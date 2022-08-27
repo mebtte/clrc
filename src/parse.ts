@@ -28,7 +28,7 @@ function parse<MetadataKey extends string>(
     sortByStartTime = DEFAULT_OPTIONS.sortByStartTime,
     trimStart = DEFAULT_OPTIONS.trimStart,
     trimEnd = DEFAULT_OPTIONS.trimEnd,
-    arrayLrcContent = DEFAULT_OPTIONS.arrayLrcContent,
+    combineSameTimeLrc = DEFAULT_OPTIONS.combineSameTimeLrc,
   }: ParseOptions = {}
 ) {
   const metadatas: MetadataLine<MetadataKey>[] = [];
@@ -38,7 +38,7 @@ function parse<MetadataKey extends string>(
   } = {};
 
   let lyrics: LyricLine[] = [];
-  const arrayContentLyrics: LyricLineWithSecondLrc[] = [];
+  let arrayContentLyrics: LyricLineWithSecondLrc[] = [];
   const invalidLines: LrcLine[] = [];
 
   const lines = lrc.split('\n');
@@ -113,11 +113,28 @@ function parse<MetadataKey extends string>(
     lyrics = lyrics.sort((a, b) => a.startMillisecond - b.startMillisecond);
   }
 
+  /** must sort array by time before combine */
+  arrayContentLyrics = arrayContentLyrics.sort(
+    (a, b) => a.startMillisecond - b.startMillisecond
+  );
+
+  let i = 0;
+  while (i < arrayContentLyrics.length - 1) {
+    const firstLrc = arrayContentLyrics[i];
+      const secondLrc = arrayContentLyrics[i + 1];
+    if (firstLrc.startMillisecond === secondLrc.startMillisecond) {
+      firstLrc.content = [...firstLrc.content, ...secondLrc.content];
+      arrayContentLyrics.splice(i + 1, 1);
+      i -= 1;
+    }
+    i += 1;
+  }
+
   return {
     metadatas,
     metadata,
 
-    lyrics: arrayLrcContent ? arrayContentLyrics : lyrics,
+    lyrics: combineSameTimeLrc ? arrayContentLyrics : lyrics,
     invalidLines,
   };
 }

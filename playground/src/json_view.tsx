@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import JsonView from 'react-json-view';
-import { parse } from 'clrc';
+import { parse } from '../../src';
 
 const Style = styled.div`
   overflow: auto;
@@ -15,23 +15,23 @@ const Wrapper = ({
   sortByStartTime,
   trimStart,
   trimEnd,
-  arrayLrcContent
+  combineSameTimeLrc
 }: {
   lrc: string;
   sortByStartTime: boolean;
   trimStart: boolean;
   trimEnd: boolean;
-  arrayLrcContent: boolean;
+  combineSameTimeLrc?: boolean;
 }) => {
   const [lrcObject, setLrcObject] = useState(parse(lrc));
 
   useEffect(() => {
     const timer = window.setTimeout(
-      () => setLrcObject(parse(lrc, { sortByStartTime, trimStart, trimEnd, arrayLrcContent })),
+      () => setLrcObject(parse(lrc, { sortByStartTime, trimStart, trimEnd, combineSameTimeLrc })),
       300
     );
     return () => window.clearTimeout(timer);
-  }, [lrc, sortByStartTime, trimStart, trimEnd, arrayLrcContent]);
+  }, [lrc, sortByStartTime, trimStart, trimEnd, combineSameTimeLrc]);
 
   useEffect(() => {
     console.log(lrcObject);

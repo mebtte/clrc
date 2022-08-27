@@ -25,13 +25,13 @@ export type ParseOptions = {
   trimStart?: boolean;
   /** whether to remove end spaces */
   trimEnd?: boolean;
-  /** change lrc content from `string` to `string[]` */
-  arrayLrcContent?: boolean;
+  /** combine same time lrc, this will change content to array and open `sortByStartTime` options */
+  combineSameTimeLrc?: boolean;
 };
 
 export const DEFAULT_OPTIONS: ParseOptions = {
   sortByStartTime: false,
   trimStart: true,
   trimEnd: false,
-  arrayLrcContent: false,
+  combineSameTimeLrc: false,
 };
