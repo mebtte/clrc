@@ -2,7 +2,7 @@
 
 LRC format parser for JavaScript/TypeScript. Here is a [playground](https://mebtte.github.io/clrc).
 
-[2.x README](https://github.com/mebtte/clrc/blob/master/README.md)
+[2.x README](https://github.com/mebtte/clrc/blob/5c6efcbbfe08d4021e0a7d6252088c5deca428f7/README.md)
 
 ## Features
 
