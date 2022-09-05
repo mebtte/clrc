@@ -13,7 +13,7 @@ jobs:
 
       - name: build clrc
         run: |
-          npm install --force
+          npm install --legacy-peer-deps
           npm run build
 
       - name: build playground and deploy to pages
