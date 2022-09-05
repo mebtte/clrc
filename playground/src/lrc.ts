@@ -1,10 +1,10 @@
-export default `[by:mebtte]
- [ar:Greyson Chance]
+const lrc = `something wrong
+[by:mebtte]
+[ar:Greyson Chance]
 [01:17.62][00:51.80][01:43.27]Come with me for a little ride, see the shadows passing by
- [00:25.95]Look at the sun and see the clouds turn to faces in the sky
- invalid line
+[00:25.95]Look at the sun and see the clouds turn to faces in the sky
 [00:17.300]Come with me for a little ride, see the shadows passing by
- [00:34.450]We've been awake all night, shattered dreams all around  
+[00:34.450]We've been awake all night, shattered dreams all around  
 [00:42.55]Close your sad, sad eyes we will be safe and sound
 [01:00.13]Look at the sun and see the clouds turn to faces in the sky
 [01:08.84]Daydreaming lightly through the rain, All's forgiven on a summer train
@@ -29,3 +29,5 @@ export default `[by:mebtte]
 [03:51.31]Come away with me, it's gonna be all right just breathe
 [03:59.39]Come away with me, it's gonna be all right you'll see, you'll see
 [04:24.46]Come away with me`;
+
+export default lrc;

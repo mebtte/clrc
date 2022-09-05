@@ -1,24 +1,38 @@
 {
-  "name": "clrc-playground",
+  "name": "playground",
+  "homepage": "/clrc",
   "private": true,
-  "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
-  },
-  "author": {
-    "name": "mebtte",
-    "email": "hi@mebtte.com",
-    "url": "https://mebtte.com"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.2",
-    "@types/styled-components": "^5.1.9",
-    "clrc": "file:..",
-    "parcel-bundler": "^1.12.5",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+  "dependencies": {
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "@types/styled-components": "^5.1.26",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-json-view": "^1.21.3",
-    "styled-components": "^5.2.1"
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.5",
+    "typescript": "^4.8.2",
+    "clrc": "file:.."
+  },
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
