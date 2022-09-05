@@ -27,7 +27,7 @@ jobs:
           git init
           git config --local user.name mebtte
           git config --local user.email hi@mebtte.com
-          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/$GITHUB_REPOSITORY.git
+          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/mebtte/clrc.git
           git switch -c gh-pages
           git add -A
           git commit -m "auto deploy"
