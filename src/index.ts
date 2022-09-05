@@ -1,4 +1,4 @@
-import { LrcLine, MetadataLine, LyricLine, ParseOptions } from './constants';
+import { LineType, Line, MetadataLine, LyricLine } from './constants';
 import parse from './parse';
 
-export { parse, LrcLine, MetadataLine, LyricLine, ParseOptions };
+export { parse, LineType, Line, MetadataLine, LyricLine };

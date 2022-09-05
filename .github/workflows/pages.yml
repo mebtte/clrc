@@ -3,7 +3,7 @@ on:
     branches:
       - master
 jobs:
-  deploy_playground_to_pages:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
@@ -19,9 +19,11 @@ jobs:
       - name: build playground and deploy to pages
         run: |
           cd playground
+
           npm install
-          npm run build -- --public-url /clrc
-          cd dist
+          npm run build
+          cd build
+
           git init
           git config --local user.name mebtte
           git config --local user.email hi@mebtte.com
