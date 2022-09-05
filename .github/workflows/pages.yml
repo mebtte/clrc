@@ -13,7 +13,7 @@ jobs:
 
       - name: build clrc
         run: |
-          npm install
+          npm install --force
           npm run build
 
       - name: build playground and deploy to pages
