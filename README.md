@@ -21,8 +21,7 @@ import { parse } from 'clrc';
 const lrc = `[ar:张叶蕾]
 something wrong
 [00:54.04]每一辆飞车彻夜向前开
-[00:58.22]飞到了路崖边永不回来
-`;
+[00:58.22]飞到了路崖边永不回来`;
 
 console.log(parse(lrc));
 ```
