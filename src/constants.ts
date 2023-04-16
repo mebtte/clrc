@@ -2,6 +2,7 @@
 export enum LineType {
   INVALID = 'invalid',
   LYRIC = 'lyric',
+  LYRIC_EXT = 'lyric_ext',
   METADATA = 'metadata',
 }
 
@@ -25,4 +26,17 @@ export interface LyricLine extends Line {
 
 export interface InvalidLine extends Line {
   type: LineType.INVALID;
+}
+
+export interface Syllable {
+  sylNumber: number;
+  raw: string;
+  startMillisecond: number;
+  content: string;
+}
+
+export interface LyricExtLine extends Line {
+  type: LineType.LYRIC_EXT;
+  startMillisecond: number;
+  content: Syllable[];
 }

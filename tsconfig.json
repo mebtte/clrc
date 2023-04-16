@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["ES2015"],
+    "lib": ["ES2015", "es2020.string"],
     "outDir": "dist",
     "jsx": "react",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "downlevelIteration": true
   },
   "exclude": ["./playground", "./dist"]
 }
