@@ -69,6 +69,7 @@ function parse<MetadataKey extends string>(lrc: string) {
             content: startLyric,
           });
           parsedLines.push({
+            type: LineType.LYRIC,
             lineNumber: i,
             raw,
             startMillisecond: startMill,
@@ -78,6 +79,7 @@ function parse<MetadataKey extends string>(lrc: string) {
           break;
         } else {
           parsedLines.push({
+            type: LineType.LYRIC,
             lineNumber: i,
             raw,
             startMillisecond: startMill,
