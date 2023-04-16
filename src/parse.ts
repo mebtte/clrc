@@ -71,16 +71,15 @@ function parse<MetadataKey extends string>(lrc: string) {
           parsedLines.push({
             lineNumber: i,
             raw,
-            type: LineType.LYRIC_EXT,
             startMillisecond: startMill,
-            content: syllables,
+            content: lyricMatch[2],
+            syllables,
           } as LyricExtLine);
           break;
         } else {
           parsedLines.push({
             lineNumber: i,
             raw,
-            type: LineType.LYRIC,
             startMillisecond: startMill,
             content: lyricMatch[2],
           } as LyricLine);

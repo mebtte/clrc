@@ -7,7 +7,7 @@
     "dev": "tsc --declaration --watch",
     "build": "tsc --declaration",
     "lint-staged": "lint-staged",
-    "prepare": "husky install",
+    "prepare": "husky install && npm run build",
     "prepublish": "npm run build"
   },
   "repository": {
