@@ -47,21 +47,19 @@ function parse<MetadataKey extends string>(lrc: string) {
         const extParts = [...lyricMatch[2].matchAll(LYRIC_EXT_TIME)];
         if (extParts.length) {
           const startLyric = lyricMatch[2].match(/^([^<]*)/)[0];
-          const syllables = extParts
-            .filter((extPart) => extPart[2].length)
-            .map((extPart, ind) => {
-              const extTimeMatch = extPart[1]
-                .replace(/(<|>)/g, '')
-                .match(LYRIC_TIME);
-              const sylStartMill = toMillisecond(extTimeMatch);
-              const syllable: Syllable = {
-                sylNumber: ind + 1,
-                raw: extPart[0],
-                startMillisecond: sylStartMill,
-                content: extPart[2],
-              };
-              return syllable;
-            });
+          const syllables = extParts.map((extPart, ind) => {
+            const extTimeMatch = extPart[1]
+              .replace(/(<|>)/g, '')
+              .match(LYRIC_TIME);
+            const sylStartMill = toMillisecond(extTimeMatch);
+            const syllable: Syllable = {
+              sylNumber: ind + 1,
+              raw: extPart[0],
+              startMillisecond: sylStartMill,
+              content: extPart[2],
+            };
+            return syllable;
+          });
           syllables.splice(0, 0, {
             sylNumber: 0,
             raw: startLyric,
