@@ -24,7 +24,7 @@ const lrc = `basking in the glow
 [00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>
 [00:35.50]I'm <00:35.89>leaning <00:36.80>in <00:37.59>again<00:38.46>;
 
-console.log(parse(lrc));
+console.log(parse(lrc, {enhanced: true}));
 ```
 
 The output is:
@@ -119,6 +119,7 @@ types of line:
 - `LineType.INVALID` means it's invalid line
 - `LineType.LYRIC` means it's lyric line
 - `LineType.METADATA` means it's metadata line
+- `LineType.LYRIC_ENH` means it's lyric with inline enhanced lrc tags. 
 
 ## License
 
