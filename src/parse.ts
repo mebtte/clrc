@@ -24,12 +24,17 @@ const LYRIC_LINE = /^((?:\[\d+:\d+(?:\.\d+)?\])+)(.*)$/; // [LYRIC_TIME]content
 const METADATA_LINE = /^\[(.+?):(.*?)\]$/; // [key:value]
 const LYRIC_TIME = /^(\d+):(\d+)(?:\.(\d+))?$/; // 00:00.00 or 00:00
 const LYRIC_EXT_TIME = /((?:<\d+:\d+(?:\.\d+)?>)+)([^<]*)/g; // <LYRIC_TIME>content
+const LYRIC_EXT_INNER = /((?:<\d+:\d+(?:\.\d+)?>)+)/g; // <LYRIC_TIME>
+
+function tagToTime(str: string) {
+  return toMillisecond(str.replaceAll(/[<>[\]]/g, '').match(LYRIC_TIME));
+}
 
 /**
  * parse lrc string
  * @author mebtte<hi@mebtte.com>
  */
-function parse<MetadataKey extends string>(lrc: string) {
+function parse<MetadataKey extends string>(lrc: string, { enhanced = true }) {
   const parsedLines: Line[] = [];
 
   const lines = lrc.split('\n');
@@ -38,54 +43,63 @@ function parse<MetadataKey extends string>(lrc: string) {
 
     /** lyric */
     const lyricMatch = raw.match(LYRIC_LINE);
-    if (lyricMatch) {
+    if (raw.match(LYRIC_LINE)) {
       const timesPart = lyricMatch[1]; // [time][time]content --> [time][time]
       const times = timesPart.split(']['); // [time1][time2] --> [time1 | time2]
+
+      let startLyric: string;
+      let offsets: number[];
+      let extParts: RegExpMatchArray[];
+
+      if (enhanced) {
+        startLyric = lyricMatch[2].match(/^[^<]*/)[0];
+        const startOffset = tagToTime(times[0]);
+        extParts = [...lyricMatch[2].matchAll(LYRIC_EXT_TIME)];
+        offsets = extParts.map(
+          (extPart) => tagToTime(extPart[1]) - startOffset
+        );
+      }
+
       for (const time of times) {
-        const timeMatch = time.replace(/(\[|\])/g, '').match(LYRIC_TIME);
-        const startMill = toMillisecond(timeMatch);
-        const extParts = [...lyricMatch[2].matchAll(LYRIC_EXT_TIME)];
-        if (extParts.length) {
-          const startLyric = lyricMatch[2].match(/^([^<]*)/)[0];
-          const syllables = extParts.map((extPart, ind) => {
-            const extTimeMatch = extPart[1]
-              .replace(/(<|>)/g, '')
-              .match(LYRIC_TIME);
-            const sylStartMill = toMillisecond(extTimeMatch);
-            const syllable: Syllable = {
-              sylNumber: ind + 1,
-              raw: extPart[0],
-              startMillisecond: sylStartMill,
-              content: extPart[2],
-            };
-            return syllable;
-          });
-          syllables.splice(0, 0, {
-            sylNumber: 0,
-            raw: startLyric,
-            startMillisecond: startMill,
-            content: startLyric,
-          });
+        const tagStart = tagToTime(time);
+        if (enhanced) {
+          const syllables = [
+            {
+              sylNumber: 0,
+              raw: startLyric,
+              startMillisecond: tagStart,
+              content: startLyric,
+            },
+          ];
+          syllables.push(
+            ...extParts.map(
+              (extPart, ind: number) =>
+                ({
+                  sylNumber: ind + 1,
+                  raw: extPart[0],
+                  startMillisecond: tagStart + offsets[ind],
+                  content: extPart[2],
+                } as Syllable)
+            )
+          );
           parsedLines.push({
-            type: LineType.LYRIC,
+            type: LineType.LYRIC_ENH,
             lineNumber: i,
             raw,
-            startMillisecond: startMill,
-            content: lyricMatch[2],
+            content: lyricMatch[2].replace(LYRIC_EXT_INNER, ''),
+            startMillisecond: tagStart,
             syllables,
           } as LyricExtLine);
-          break;
         } else {
           parsedLines.push({
             type: LineType.LYRIC,
             lineNumber: i,
             raw,
-            startMillisecond: startMill,
             content: lyricMatch[2],
+            startMillisecond: tagStart,
           } as LyricLine);
         }
       }
-
       continue;
     }
 

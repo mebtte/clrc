@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ES2015", "es2020.string"],
+    "lib": ["es2021"],
     "outDir": "dist",
     "jsx": "react",
     "esModuleInterop": true,
