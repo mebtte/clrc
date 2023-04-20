@@ -39,6 +39,7 @@ const lrc = `basking in the glow
 [00:41.83]That I am just a mess
 [00:44.89]There was nothing I could do
 [00:48.40]But <00:48.70>see <00:49.04>your <00:49.40>point <00:49.82>of <00:50.10>view<00:51.00>
+[00:44.89]
 [00:51.25]<00:52.03>
 [00:52.28]And that's <00:52.98>the <00:53.19>truth<00:54.08>
 [00:54.33]<00:55.67>`;

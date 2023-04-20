@@ -41,3 +41,17 @@ export interface LyricExtLine extends Line {
   content: string;
   syllables: Syllable[];
 }
+
+export interface Options {
+  /**
+   * @default false
+   * @description whether to parse syllables or words as separate objects.
+   * @see {@link https://en.wikipedia.org/wiki/LRC_(file_format)#Enhanced_format|Enhanced LRC}
+   * */
+  enhanced?: boolean;
+  /**
+   * @default false
+   * @description whether to strip empty lines.
+   * */
+  strip?: boolean;
+}

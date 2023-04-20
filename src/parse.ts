@@ -5,6 +5,7 @@ import {
   LyricLine,
   Syllable,
   LyricExtLine,
+  Options,
 } from './constants';
 
 function toMillisecond(timeMatch: RegExpMatchArray) {
@@ -34,12 +35,15 @@ function tagToTime(str: string) {
  * parse lrc string
  * @author mebtte<hi@mebtte.com>
  */
-function parse<MetadataKey extends string>(lrc: string, { enhanced = true }) {
+function parse<MetadataKey extends string>(
+  lrc: string,
+  { enhanced = false, strip = false }: Options = {}
+) {
   const parsedLines: Line[] = [];
 
   const lines = lrc.split('\n');
-  for (let i = 0, { length } = lines; i < length; i += 1) {
-    const raw = lines[i];
+  for (let index = 0, { length } = lines; index < length; index += 1) {
+    const raw = lines[index];
 
     /** lyric */
     const lyricMatch = raw.match(LYRIC_LINE);
@@ -48,13 +52,24 @@ function parse<MetadataKey extends string>(lrc: string, { enhanced = true }) {
       const times = timesPart.split(']['); // [time1][time2] --> [time1 | time2]
 
       let startLyric: string;
+      let strippedExt: string;
       let offsets: number[];
       let extParts: RegExpMatchArray[];
 
+      if (strip && !lyricMatch[2]) {
+        continue;
+      }
+
       if (enhanced) {
         startLyric = lyricMatch[2].match(/^[^<]*/)[0];
-        const startOffset = tagToTime(times[0]);
         extParts = [...lyricMatch[2].matchAll(LYRIC_EXT_TIME)];
+
+        strippedExt = lyricMatch[2].replace(LYRIC_EXT_INNER, '');
+        if (strip && !strippedExt) {
+          continue;
+        }
+
+        const startOffset = tagToTime(times[0]);
         offsets = extParts.map(
           (extPart) => tagToTime(extPart[1]) - startOffset
         );
@@ -84,16 +99,16 @@ function parse<MetadataKey extends string>(lrc: string, { enhanced = true }) {
           );
           parsedLines.push({
             type: LineType.LYRIC_ENH,
-            lineNumber: i,
+            lineNumber: parsedLines.length,
             raw,
-            content: lyricMatch[2].replace(LYRIC_EXT_INNER, ''),
+            content: strippedExt,
             startMillisecond: tagStart,
             syllables,
           } as LyricExtLine);
         } else {
           parsedLines.push({
             type: LineType.LYRIC,
-            lineNumber: i,
+            lineNumber: parsedLines.length,
             raw,
             content: lyricMatch[2],
             startMillisecond: tagStart,
@@ -109,27 +124,23 @@ function parse<MetadataKey extends string>(lrc: string, { enhanced = true }) {
       const key = metadataMatch[1] as MetadataKey;
       const value = metadataMatch[2];
       const metadataLine: MetadataLine<MetadataKey> = {
-        lineNumber: i,
+        lineNumber: parsedLines.length,
         raw,
-
         type: LineType.METADATA,
         key,
         value,
       };
       parsedLines.push(metadataLine);
-
       continue;
     }
 
     /** invalid line */
     parsedLines.push({
-      lineNumber: i,
+      lineNumber: parsedLines.length,
       raw,
-
       type: LineType.INVALID,
     });
   }
-
   return parsedLines;
 }
 

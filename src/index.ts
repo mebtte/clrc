@@ -5,6 +5,7 @@ import {
   LyricLine,
   Syllable,
   LyricExtLine,
+  Options,
 } from './constants';
 import parse from './parse';
 
@@ -16,4 +17,5 @@ export {
   LyricLine,
   Syllable,
   LyricExtLine,
+  Options,
 };
