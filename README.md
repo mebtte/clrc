@@ -44,11 +44,11 @@ The output is:
     "value": "Oso Oso"
   },
   {
-    "type": "lyric",
+    "type": "lyric_enhanced",
     "lineNumber": 2,
     "raw": "[00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>",
+    "content": "Little jagged edge",
     "startMillisecond": 32790,
-    "content": "Little <00:33.58>jagged <00:34.14>edge<00:35.25>",
     "syllables": [
       {
         "sylNumber": 0,
@@ -67,15 +67,54 @@ The output is:
         "raw": "<00:34.14>edge",
         "startMillisecond": 34140,
         "content": "edge"
+      },
+      {
+        "sylNumber": 3,
+        "raw": "<00:35.25>",
+        "startMillisecond": 35250,
+        "content": ""
       }
     ]
   },
   {
-    "type": "lyric",
+    "type": "lyric_enhanced",
     "lineNumber": 3,
+    "raw": "[00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>",
+    "content": "Little jagged edge",
+    "startMillisecond": 56000,
+    "syllables": [
+      {
+        "sylNumber": 0,
+        "raw": "Little ",
+        "startMillisecond": 56000,
+        "content": "Little "
+      },
+      {
+        "sylNumber": 1,
+        "raw": "<00:33.58>jagged ",
+        "startMillisecond": 56790,
+        "content": "jagged "
+      },
+      {
+        "sylNumber": 2,
+        "raw": "<00:34.14>edge",
+        "startMillisecond": 57350,
+        "content": "edge"
+      },
+      {
+        "sylNumber": 3,
+        "raw": "<00:35.25>",
+        "startMillisecond": 58460,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "type": "lyric_enhanced",
+    "lineNumber": 4,
     "raw": "[00:35.50]I'm <00:35.89>leaning <00:36.80>in <00:37.59>again<00:38.46>",
+    "content": "I'm leaning in again",
     "startMillisecond": 35500,
-    "content": "I'm <00:35.89>leaning <00:36.80>in <00:37.59>again<00:38.46>",
     "syllables": [
       {
         "sylNumber": 0,
@@ -100,6 +139,12 @@ The output is:
         "raw": "<00:37.59>again",
         "startMillisecond": 37590,
         "content": "again"
+      },
+      {
+        "sylNumber": 4,
+        "raw": "<00:38.46>",
+        "startMillisecond": 38460,
+        "content": ""
       }
     ]
   }
