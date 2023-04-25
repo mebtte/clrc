@@ -4,6 +4,7 @@ import demoLrc from './lrc';
 import GlobalStyle from './global_style';
 import JsonView from './json_view';
 import Github from './github';
+import Option from './option';
 
 const Style = styled.div`
   position: absolute;
@@ -13,10 +14,18 @@ const Style = styled.div`
   left: 0;
 
   display: flex;
+
+  > .editor {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const Textarea = styled.textarea`
   flex: 1;
-  min-width: 0;
+  min-height: 0;
 
   padding: 10px;
 
@@ -29,6 +38,8 @@ const Textarea = styled.textarea`
 `;
 
 const App = () => {
+  const [enhanced, setEnhanced] = useState(false);
+
   const [lrc, setLrc] = useState(demoLrc);
   const onLrcChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     setLrc(event.target.value);
@@ -37,8 +48,11 @@ const App = () => {
     <>
       <GlobalStyle />
       <Style>
-        <Textarea value={lrc} onChange={onLrcChange} autoFocus />
-        <JsonView lrc={lrc} />
+        <div className="editor">
+          <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
+          <Textarea value={lrc} onChange={onLrcChange} autoFocus />
+        </div>
+        <JsonView lrc={lrc} enhanced={enhanced} />
       </Style>
       <Github />
     </>

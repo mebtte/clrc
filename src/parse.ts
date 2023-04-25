@@ -91,7 +91,7 @@ function parse<MetadataKey extends string>(
             )
           );
           parsedLines.push({
-            type: LineType.LYRIC_ENH,
+            type: LineType.LYRIC_ENHANCED,
             lineNumber: parsedLines.length,
             raw,
             content: strippedExt,

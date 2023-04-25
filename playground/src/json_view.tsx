@@ -13,9 +13,12 @@ const Style = styled.div`
   background-color: rgb(222 222 222 / 0.2);
 `;
 
-const Wrapper = ({ lrc }: { lrc: string }) => {
+const Wrapper = ({ lrc, enhanced }: { lrc: string; enhanced: boolean }) => {
   const deferedLrc = useDeferredValue(lrc);
-  const parsed = useMemo(() => parse(deferedLrc), [deferedLrc]);
+  const parsed = useMemo(
+    () => parse(deferedLrc, { enhanced }),
+    [deferedLrc, enhanced]
+  );
 
   return (
     <Style>
