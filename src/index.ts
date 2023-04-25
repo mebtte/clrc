@@ -8,6 +8,7 @@ import {
   Options,
 } from './constants';
 import parse from './parse';
+import toString from './toString';
 
 export {
   parse,
@@ -18,4 +19,5 @@ export {
   Syllable,
   LyricExtLine,
   Options,
+  toString,
 };
