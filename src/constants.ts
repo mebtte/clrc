@@ -49,9 +49,4 @@ export interface Options {
    * @see {@link https://en.wikipedia.org/wiki/LRC_(file_format)#Enhanced_format|Enhanced LRC}
    * */
   enhanced?: boolean;
-  /**
-   * @default false
-   * @description whether to strip empty lines.
-   * */
-  strip?: boolean;
 }

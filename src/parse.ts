@@ -37,7 +37,7 @@ function tagToTime(str: string) {
  */
 function parse<MetadataKey extends string>(
   lrc: string,
-  { enhanced = false, strip = false }: Options = {}
+  { enhanced = false }: Options = {}
 ) {
   const parsedLines: Line[] = [];
 
@@ -56,18 +56,11 @@ function parse<MetadataKey extends string>(
       let offsets: number[];
       let extParts: RegExpMatchArray[];
 
-      if (strip && !lyricMatch[2]) {
-        continue;
-      }
-
       if (enhanced) {
         startLyric = lyricMatch[2].match(/^[^<]*/)[0];
         extParts = [...lyricMatch[2].matchAll(LYRIC_EXT_TIME)];
 
         strippedExt = lyricMatch[2].replace(LYRIC_EXT_INNER, '');
-        if (strip && !strippedExt) {
-          continue;
-        }
 
         const startOffset = tagToTime(times[0]);
         offsets = extParts.map(
