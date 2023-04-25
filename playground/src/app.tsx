@@ -1,10 +1,10 @@
+import { expand } from 'clrc';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Github from './github';
 import GlobalStyle from './global_style';
 import JsonView from './json_view';
 import demoLrc from './lrc';
-import { parse, toString } from 'clrc';
 import Option from './option';
 
 const Style = styled.div`
@@ -22,6 +22,12 @@ const Style = styled.div`
 
     display: flex;
     flex-direction: column;
+
+    > .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
   }
 `;
 const Textarea = styled.textarea`
@@ -44,29 +50,21 @@ const Button = styled.button`
   border-radius: 5px;
   background-color: #fff;
   cursor: pointer;
-  font-size: 20px;
   max-height: 50px;
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
 `;
 
 const App = () => {
   const [enhanced, setEnhanced] = useState(false);
 
   const [lrc, setLrc] = useState(demoLrc);
+
   const onLrcChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     setLrc(event.target.value);
 
   const reset = () => setLrc(demoLrc);
 
-  const regenerate = () => {
-    setLrc(toString(parse(lrc)));
+  const handleExpand = () => {
+    setLrc(expand(lrc));
   };
 
   return (
@@ -74,14 +72,12 @@ const App = () => {
       <GlobalStyle />
       <Style>
         <div className="editor">
-          <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
+          <div className="toolbar">
+            <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
+            <Button onClick={reset}>Reset</Button>
+            <Button onClick={handleExpand}>Regenerate</Button>
+          </div>
           <Textarea value={lrc} onChange={onLrcChange} autoFocus />
-          <Button onClick={reset}>
-            Reset
-          </Button>
-          <Button onClick={regenerate}>
-            Regenerate
-          </Button>
         </div>
         <JsonView lrc={lrc} enhanced={enhanced} />
       </Style>

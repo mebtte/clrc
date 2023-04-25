@@ -9,6 +9,7 @@ import {
 } from './constants';
 import parse from './parse';
 import toString from './toString';
+import expand from './expand';
 
 export {
   parse,
@@ -20,4 +21,5 @@ export {
   LyricExtLine,
   Options,
   toString,
+  expand,
 };

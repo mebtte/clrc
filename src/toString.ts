@@ -11,9 +11,21 @@ function toMMSSmmm(millisecond: number) {
   return `${minutes}:${seconds}.${ms}`;
 }
 
+type Timed = LyricLine | LyricExtLine;
+function isTimed(line: Line): line is Timed {
+  return line.type === LineType.LYRIC || line.type === LineType.LYRIC_ENHANCED;
+}
+
+function selectiveSort(a: Line, b: Line) {
+  if (isTimed(a) && isTimed(b)) {
+    return a.startMillisecond - b.startMillisecond;
+  }
+  return 0;
+}
+
 export default function toString(lrc: Line[]) {
-  const strings = lrc.map((line) => {
-    if (line.type === LineType.LYRIC_ENH) {
+  const strings = lrc.sort(selectiveSort).map((line) => {
+    if (line.type === LineType.LYRIC_ENHANCED) {
       const lineExt = line as LyricExtLine;
       const content = [];
       content.push(`[${toMMSSmmm(lineExt.startMillisecond)}]`);
