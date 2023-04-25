@@ -110,7 +110,15 @@ The output is:
 
 ### parse(lrcString)
 
-parse lrc string to array.
+parse lrc string to Line array.
+
+### toString(Line[])
+
+parse Line array back into valid lrc string.
+
+### expand(lrcString)
+
+returns new lrc string with all repeating lyrics inserted into separate lines.
 
 ### LineType
 
@@ -119,7 +127,7 @@ types of line:
 - `LineType.INVALID` means it's invalid line
 - `LineType.LYRIC` means it's lyric line
 - `LineType.METADATA` means it's metadata line
-- `LineType.LYRIC_ENH` means it's lyric with inline enhanced lrc tags. 
+- `LineType.LYRIC_ENHANCED` means it's lyric with inline enhanced lrc tags. 
 
 ## License
 
