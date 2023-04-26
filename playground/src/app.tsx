@@ -1,4 +1,3 @@
-import { expand } from 'clrc';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Github from './github';
@@ -22,12 +21,6 @@ const Style = styled.div`
 
     display: flex;
     flex-direction: column;
-
-    > .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
   }
 `;
 const Textarea = styled.textarea`
@@ -44,15 +37,6 @@ const Textarea = styled.textarea`
   border: 1px solid rgb(222, 222, 222);
 `;
 
-const Button = styled.button`
-  padding: 5px 10px;
-  border: 1px solid #333;
-  border-radius: 5px;
-  background-color: #fff;
-  cursor: pointer;
-  max-height: 50px;
-`;
-
 const App = () => {
   const [enhanced, setEnhanced] = useState(false);
 
@@ -61,22 +45,12 @@ const App = () => {
   const onLrcChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     setLrc(event.target.value);
 
-  const reset = () => setLrc(demoLrc);
-
-  const handleExpand = () => {
-    setLrc(expand(lrc));
-  };
-
   return (
     <>
       <GlobalStyle />
       <Style>
         <div className="editor">
-          <div className="toolbar">
-            <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
-            <Button onClick={reset}>Reset</Button>
-            <Button onClick={handleExpand}>Regenerate</Button>
-          </div>
+          <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
           <Textarea value={lrc} onChange={onLrcChange} autoFocus />
         </div>
         <JsonView lrc={lrc} enhanced={enhanced} />
