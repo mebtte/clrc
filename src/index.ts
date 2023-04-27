@@ -8,12 +8,12 @@ import {
 } from './constants';
 import parse from './parse';
 import parseEnhanced from './parse_enhanced';
-import toString from './toString';
+import stringify from './stringify';
 
 export {
   parse,
   parseEnhanced,
-  toString,
+  stringify,
   LineType,
   Line,
   MetadataLine,

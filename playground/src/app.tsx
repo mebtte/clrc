@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useDeferredValue, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Github from './github';
 import GlobalStyle from './global_style';
@@ -38,7 +38,7 @@ const Textarea = styled.textarea`
 `;
 
 const App = () => {
-  const [enhanced, setEnhanced] = useState(true);
+  const [enhanced, setEnhanced] = useState(false);
 
   const [lrc, setLrc] = useState(enhanced ? enhancedLrcDemo : lrcDemo);
   const onLrcChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -48,6 +48,7 @@ const App = () => {
     setLrc(enhanced ? enhancedLrcDemo : lrcDemo);
   }, [enhanced]);
 
+  const deferedLrc = useDeferredValue(lrc);
   return (
     <>
       <GlobalStyle />
@@ -56,7 +57,7 @@ const App = () => {
           <Option enhanced={enhanced} onEnhancedChange={setEnhanced} />
           <Textarea value={lrc} onChange={onLrcChange} autoFocus />
         </div>
-        <JsonView lrc={lrc} enhanced={enhanced} />
+        <JsonView lrc={deferedLrc} enhanced={enhanced} />
       </Style>
       <Github />
     </>

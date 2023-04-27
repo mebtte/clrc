@@ -1,7 +1,7 @@
-import { useMemo, useDeferredValue } from 'react';
+import { useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import JsonView from 'react-json-view';
-import { parse, parseEnhanced } from 'clrc';
+import { parse, parseEnhanced, stringify } from 'clrc';
 
 const Style = styled.div`
   padding: 10px;
@@ -14,11 +14,16 @@ const Style = styled.div`
 `;
 
 const Wrapper = ({ lrc, enhanced }: { lrc: string; enhanced: boolean }) => {
-  const deferedLrc = useDeferredValue(lrc);
   const parsed = useMemo(
-    () => (enhanced ? parseEnhanced(deferedLrc) : parse(deferedLrc)),
-    [deferedLrc, enhanced]
+    () => (enhanced ? parseEnhanced(lrc) : parse(lrc)),
+    [lrc, enhanced]
   );
+
+  useEffect(() => {
+    console.group('stringify from parsed result');
+    console.log(stringify(parsed));
+    console.groupEnd();
+  }, [parsed]);
 
   return (
     <Style>
