@@ -1,4 +1,4 @@
-import { Line, LineType, LyricExtLine, LyricLine } from './constants';
+import { Line, LineType, EnhancedLyricLine, LyricLine } from './constants';
 
 function toMMSSmmm(millisecond: number) {
   let minutes: String | number = Math.floor(millisecond / 60000);
@@ -11,9 +11,9 @@ function toMMSSmmm(millisecond: number) {
   return `${minutes}:${seconds}.${ms}`;
 }
 
-type Timed = LyricLine | LyricExtLine;
+type Timed = LyricLine | EnhancedLyricLine;
 function isTimed(line: Line): line is Timed {
-  return line.type === LineType.LYRIC || line.type === LineType.LYRIC_ENHANCED;
+  return line.type === LineType.LYRIC || line.type === LineType.ENHANCED_LYRIC;
 }
 
 function selectiveSort(a: Line, b: Line) {
@@ -25,12 +25,12 @@ function selectiveSort(a: Line, b: Line) {
 
 export default function toString(lrc: Line[]) {
   const strings = lrc.sort(selectiveSort).map((line) => {
-    if (line.type === LineType.LYRIC_ENHANCED) {
-      const lineExt = line as LyricExtLine;
+    if (line.type === LineType.ENHANCED_LYRIC) {
+      const lineExt = line as EnhancedLyricLine;
       const content = [];
       content.push(`[${toMMSSmmm(lineExt.startMillisecond)}]`);
-      content.push(lineExt.syllables[0].content);
-      lineExt.syllables.forEach((syl, i) => {
+      content.push(lineExt.words[0].content);
+      lineExt.words.forEach((syl, i) => {
         if (i === 0) return;
         content.push(`<${toMMSSmmm(syl.startMillisecond)}>${syl.content}`);
       });

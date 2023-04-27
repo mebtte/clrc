@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Github from './github';
 import GlobalStyle from './global_style';
 import JsonView from './json_view';
-import demoLrc from './lrc';
+import { lrc as lrcDemo, enhancedLrc as enhancedLrcDemo } from './data';
 import Option from './option';
 
 const Style = styled.div`
@@ -38,12 +38,15 @@ const Textarea = styled.textarea`
 `;
 
 const App = () => {
-  const [enhanced, setEnhanced] = useState(false);
+  const [enhanced, setEnhanced] = useState(true);
 
-  const [lrc, setLrc] = useState(demoLrc);
-
+  const [lrc, setLrc] = useState(enhanced ? enhancedLrcDemo : lrcDemo);
   const onLrcChange = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
     setLrc(event.target.value);
+
+  useEffect(() => {
+    setLrc(enhanced ? enhancedLrcDemo : lrcDemo);
+  }, [enhanced]);
 
   return (
     <>

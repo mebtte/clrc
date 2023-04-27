@@ -3,7 +3,7 @@ export enum LineType {
   INVALID = 'invalid',
   METADATA = 'metadata',
   LYRIC = 'lyric',
-  LYRIC_ENHANCED = 'lyric_enhanced',
+  ENHANCED_LYRIC = 'enhanced_lyric',
 }
 
 export interface Line {
@@ -28,25 +28,14 @@ export interface InvalidLine extends Line {
   type: LineType.INVALID;
 }
 
-export interface Syllable {
-  sylNumber: number;
+export interface EnhancedWord {
+  index: number;
   raw: string;
   startMillisecond: number;
   content: string;
 }
 
-export interface LyricExtLine extends Line {
-  type: LineType.LYRIC_ENHANCED;
-  startMillisecond: number;
-  content: string;
-  syllables: Syllable[];
-}
-
-export interface Options {
-  /**
-   * @default false
-   * @description whether to parse syllables or words as separate objects.
-   * @see {@link https://en.wikipedia.org/wiki/LRC_(file_format)#Enhanced_format|Enhanced LRC}
-   * */
-  enhanced?: boolean;
+export interface EnhancedLyricLine extends Omit<LyricLine, 'type'> {
+  type: LineType.ENHANCED_LYRIC;
+  words: EnhancedWord[];
 }
