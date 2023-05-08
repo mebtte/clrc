@@ -1,14 +1,14 @@
 # clrc [![version](https://img.shields.io/npm/v/clrc)](https://www.npmjs.com/package/clrc) [![license](https://img.shields.io/npm/l/clrc)](https://github.com/mebtte/react-lrc/blob/master/LICENSE) [![](https://img.shields.io/bundlephobia/minzip/clrc)](https://bundlephobia.com/result?p=clrc)
 
-LRC format parser for JavaScript/TypeScript. Here is a [playground](https://mebtte.github.io/clrc).
+Parser for LRC and enhanced LRC. Here is a [playground](https://mebtte.github.io/clrc).
 
 [2.x README](https://github.com/mebtte/clrc/blob/5c6efcbbfe08d4021e0a7d6252088c5deca428f7/README.md)
 
 ## Features
 
-- Support [enhanced lrc](<https://en.wikipedia.org/wiki/LRC_(file_format)#Enhanced_format>)
 - Typescript support
 - Browser & Node.js support
+- Simple format and enhanced format support
 
 ## Install & Usage
 
@@ -19,12 +19,12 @@ npm install clrc
 ```js
 import { parse } from 'clrc';
 
-const lrc = `basking in the glow
-[ar:Oso Oso]
-[00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>
-[00:35.50]I'm <00:35.89>leaning <00:36.80>in <00:37.59>again<00:38.46>;
+const lrc = `[ar:张叶蕾]
+something wrong
+[00:54.04]每一辆飞车彻夜向前开
+[00:58.22]飞到了路崖边永不回来`;
 
-console.log(parse(lrc, {enhanced: true}));
+console.log(parse(lrc));
 ```
 
 The output is:
@@ -33,120 +33,29 @@ The output is:
 [
   {
     "lineNumber": 0,
-    "raw": "basking in the glow",
-    "type": "invalid"
+    "raw": "[ar:张叶蕾]",
+    "type": "metadata",
+    "key": "ar",
+    "value": "张叶蕾"
   },
   {
     "lineNumber": 1,
-    "raw": "[ar:Oso Oso]",
-    "type": "metadata",
-    "key": "ar",
-    "value": "Oso Oso"
+    "raw": "something wrong",
+    "type": "invalid"
   },
   {
-    "type": "lyric_enhanced",
     "lineNumber": 2,
-    "raw": "[00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>",
-    "content": "Little jagged edge",
-    "startMillisecond": 32790,
-    "syllables": [
-      {
-        "sylNumber": 0,
-        "raw": "Little ",
-        "startMillisecond": 32790,
-        "content": "Little "
-      },
-      {
-        "sylNumber": 1,
-        "raw": "<00:33.58>jagged ",
-        "startMillisecond": 33580,
-        "content": "jagged "
-      },
-      {
-        "sylNumber": 2,
-        "raw": "<00:34.14>edge",
-        "startMillisecond": 34140,
-        "content": "edge"
-      },
-      {
-        "sylNumber": 3,
-        "raw": "<00:35.25>",
-        "startMillisecond": 35250,
-        "content": ""
-      }
-    ]
+    "raw": "[00:54.04]每一辆飞车彻夜向前开",
+    "type": "lyric",
+    "startMillisecond": 54040,
+    "content": "每一辆飞车彻夜向前开"
   },
   {
-    "type": "lyric_enhanced",
     "lineNumber": 3,
-    "raw": "[00:32.79][00:56.00]Little <00:33.58>jagged <00:34.14>edge<00:35.25>",
-    "content": "Little jagged edge",
-    "startMillisecond": 56000,
-    "syllables": [
-      {
-        "sylNumber": 0,
-        "raw": "Little ",
-        "startMillisecond": 56000,
-        "content": "Little "
-      },
-      {
-        "sylNumber": 1,
-        "raw": "<00:33.58>jagged ",
-        "startMillisecond": 56790,
-        "content": "jagged "
-      },
-      {
-        "sylNumber": 2,
-        "raw": "<00:34.14>edge",
-        "startMillisecond": 57350,
-        "content": "edge"
-      },
-      {
-        "sylNumber": 3,
-        "raw": "<00:35.25>",
-        "startMillisecond": 58460,
-        "content": ""
-      }
-    ]
-  },
-  {
-    "type": "lyric_enhanced",
-    "lineNumber": 4,
-    "raw": "[00:35.50]I'm <00:35.89>leaning <00:36.80>in <00:37.59>again<00:38.46>",
-    "content": "I'm leaning in again",
-    "startMillisecond": 35500,
-    "syllables": [
-      {
-        "sylNumber": 0,
-        "raw": "I'm ",
-        "startMillisecond": 35500,
-        "content": "I'm "
-      },
-      {
-        "sylNumber": 1,
-        "raw": "<00:35.89>leaning ",
-        "startMillisecond": 35890,
-        "content": "leaning "
-      },
-      {
-        "sylNumber": 2,
-        "raw": "<00:36.80>in ",
-        "startMillisecond": 36800,
-        "content": "in "
-      },
-      {
-        "sylNumber": 3,
-        "raw": "<00:37.59>again",
-        "startMillisecond": 37590,
-        "content": "again"
-      },
-      {
-        "sylNumber": 4,
-        "raw": "<00:38.46>",
-        "startMillisecond": 38460,
-        "content": ""
-      }
-    ]
+    "raw": "[00:58.22]飞到了路崖边永不回来",
+    "type": "lyric",
+    "startMillisecond": 58220,
+    "content": "飞到了路崖边永不回来"
   }
 ]
 ```
@@ -155,24 +64,102 @@ The output is:
 
 ### parse(lrcString)
 
-parse lrc string to Line array.
+parse lrc string to array.
 
-### toString(Line[])
+### parseEnhanced(lrcString)
 
-parse Line array back into valid lrc string.
+parse enhanced lrc string to array. here is a example:
 
-### expand(lrcString)
+```txt
+[ti: Somebody to Love]
+[00:00.00] <00:00.04> When <00:00.16> the <00:00.82> truth <00:01.29> is <00:01.63> found <00:03.09> to <00:03.37> be <00:05.92> lies
+```
 
-returns new lrc string with all repeating lyrics inserted into separate lines.
+the output is:
+
+```json
+[
+  {
+    "lineNumber": 0,
+    "raw": "[ti: Somebody to Love]",
+    "type": "metadata",
+    "key": "ti",
+    "value": " Somebody to Love"
+  },
+  {
+    "lineNumber": 1,
+    "raw": "[00:00.00] <00:00.04> When <00:00.16> the <00:00.82> truth <00:01.29> is <00:01.63> found <00:03.09> to <00:03.37> be <00:05.92> lies ",
+    "type": "enhanced_lyric",
+    "startMillisecond": 0,
+    "content": " <00:00.04> When <00:00.16> the <00:00.82> truth <00:01.29> is <00:01.63> found <00:03.09> to <00:03.37> be <00:05.92> lies ",
+    "words": [
+      {
+        "index": 0,
+        "raw": "<00:00.04> When ",
+        "startMillisecond": 40,
+        "content": " When "
+      },
+      {
+        "index": 1,
+        "raw": "<00:00.16> the ",
+        "startMillisecond": 160,
+        "content": " the "
+      },
+      {
+        "index": 2,
+        "raw": "<00:00.82> truth ",
+        "startMillisecond": 820,
+        "content": " truth "
+      },
+      {
+        "index": 3,
+        "raw": "<00:01.29> is ",
+        "startMillisecond": 1290,
+        "content": " is "
+      },
+      {
+        "index": 4,
+        "raw": "<00:01.63> found ",
+        "startMillisecond": 1630,
+        "content": " found "
+      },
+      {
+        "index": 5,
+        "raw": "<00:03.09> to ",
+        "startMillisecond": 3090,
+        "content": " to "
+      },
+      {
+        "index": 6,
+        "raw": "<00:03.37> be ",
+        "startMillisecond": 3370,
+        "content": " be "
+      },
+      {
+        "index": 7,
+        "raw": "<00:05.92> lies ",
+        "startMillisecond": 5920,
+        "content": " lies "
+      }
+    ]
+  }
+]
+```
 
 ### LineType
 
 types of line:
 
 - `LineType.INVALID` means it's invalid line
-- `LineType.LYRIC` means it's lyric line
 - `LineType.METADATA` means it's metadata line
-- `LineType.LYRIC_ENHANCED` means it's lyric with inline enhanced lrc tags. 
+- `LineType.LYRIC` means it's lyric line
+- `LineType.ENHANCED_LYRIC` means it's enhanced lyric line
+
+## Contributors
+
+<a href="https://github.com/mebtte/clrc/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mebtte/clrc" />
+</a>
 
 ## License
 
