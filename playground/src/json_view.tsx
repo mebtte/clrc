@@ -1,7 +1,7 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import JsonView from 'react-json-view';
-import { parse, parseEnhanced, stringify } from 'clrc';
+import { parse, parseEnhanced } from 'clrc';
 
 const Style = styled.div`
   padding: 10px;
@@ -18,12 +18,6 @@ const Wrapper = ({ lrc, enhanced }: { lrc: string; enhanced: boolean }) => {
     () => (enhanced ? parseEnhanced(lrc) : parse(lrc)),
     [lrc, enhanced]
   );
-
-  useEffect(() => {
-    console.group('stringify from parsed result');
-    console.log(stringify(parsed));
-    console.groupEnd();
-  }, [parsed]);
 
   return (
     <Style>
