@@ -25,6 +25,7 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
 
+    'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-restricted-syntax': 'off',
     'no-continue': 'off',
@@ -34,6 +35,16 @@ module.exports = {
       {
         ts: 'never',
         tsx: 'never',
+      },
+    ],
+    'prefer-destructuring': [
+      'error',
+      {
+        array: false,
+        object: true,
+      },
+      {
+        enforceForRenamedProperties: false,
       },
     ],
   },

@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-shadow
 export enum LineType {
   INVALID = 'invalid',
-  LYRIC = 'lyric',
   METADATA = 'metadata',
+  LYRIC = 'lyric',
+  ENHANCED_LYRIC = 'enhanced_lyric',
 }
 
 export interface Line {
@@ -25,4 +26,16 @@ export interface LyricLine extends Line {
 
 export interface InvalidLine extends Line {
   type: LineType.INVALID;
+}
+
+export interface EnhancedWord {
+  index: number;
+  raw: string;
+  startMillisecond: number;
+  content: string;
+}
+
+export interface EnhancedLyricLine extends Omit<LyricLine, 'type'> {
+  type: LineType.ENHANCED_LYRIC;
+  words: EnhancedWord[];
 }

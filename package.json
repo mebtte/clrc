@@ -7,7 +7,7 @@
     "dev": "tsc --declaration --watch",
     "build": "tsc --declaration",
     "lint-staged": "lint-staged",
-    "prepare": "husky install",
+    "prepare": "husky install && npm run build",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/mebtte/clrc#readme",
   "devDependencies": {
+    "@types/node": "^18.15.12",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "eslint": "^8.23.0",
