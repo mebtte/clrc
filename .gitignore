@@ -1,11 +1,8 @@
-# node & npm & pnpm
+# node & npm
 node_modules/
-package-lock.json
-pnpm-lock.yaml
 
 # typescript/parcel dist
 dist/
 
-# parcel
-.cache/
-/src/unparse.ts
+# macOS
+.DS_Store
