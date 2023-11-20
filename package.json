@@ -1,6 +1,6 @@
 {
   "name": "clrc",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Parser for LRC and enhanced LRC.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -25,7 +25,10 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
     "@rollup/plugin-typescript": "^11.1.5",
+    "@types/jest": "^29.5.8",
     "@types/node": "^18.15.12",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "eslint": "^8.54.0",
@@ -35,6 +38,7 @@
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.1",
+    "jest": "^29.7.0",
     "lint-staged": "^13.0.3",
     "prettier": "^3.1.0",
     "rimraf": "^5.0.5",
@@ -43,11 +47,12 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
+    "test": "jest",
     "dev": "rimraf dist && rollup -w --bundleConfigAsCjs --config rollup.config.js",
     "build": "rimraf dist && rollup --bundleConfigAsCjs --config rollup.config.js",
     "lint-staged": "lint-staged",
     "prepare": "husky install",
-    "prepublish": "npm run build"
+    "prepublish": "npm run test &&npm run build"
   },
   "files": [
     "dist"
