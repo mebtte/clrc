@@ -1,19 +1,18 @@
 {
   "name": "clrc",
   "version": "3.1.0",
-  "description": "LRC format parser.",
-  "main": "dist/index.js",
-  "scripts": {
-    "dev": "tsc --declaration --watch",
-    "build": "tsc --declaration",
-    "lint-staged": "lint-staged",
-    "prepare": "husky install && npm run build",
-    "prepublish": "npm run build"
-  },
+  "description": "Parser for LRC and enhanced LRC.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mebtte/clrc.git"
   },
+  "bugs": {
+    "url": "https://github.com/mebtte/clrc/issues"
+  },
+  "homepage": "https://github.com/mebtte/clrc#readme",
   "keywords": [
     "lrc",
     "parser",
@@ -25,21 +24,32 @@
     "url": "https://mebtte.com"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mebtte/clrc/issues"
-  },
-  "homepage": "https://github.com/mebtte/clrc#readme",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.5",
     "@types/node": "^18.15.12",
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
-    "@typescript-eslint/parser": "^5.36.1",
-    "eslint": "^8.23.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^40.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.2"
-  }
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.5.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "dev": "rimraf dist && rollup -w --bundleConfigAsCjs --config rollup.config.js",
+    "build": "rimraf dist && rollup --bundleConfigAsCjs --config rollup.config.js",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist"
+  ]
 }

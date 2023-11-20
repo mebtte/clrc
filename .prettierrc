@@ -2,5 +2,8 @@
   "printWidth": 80,
   "tabWidth": 2,
   "endOfLine": "lf",
-  "singleQuote": true
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "all",
+  "bracketSpacing": true
 }

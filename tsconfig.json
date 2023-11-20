@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["ES2015"],
-    "outDir": "dist",
-    "skipLibCheck": true
+    "lib": ["ESNext"],
+    "strictNullChecks": true
   },
-  "exclude": ["./playground", "./dist"]
+  "exclude": ["**/*.test.ts"]
 }
