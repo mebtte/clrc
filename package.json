@@ -53,7 +53,7 @@
     "build": "rimraf dist && rollup --bundleConfigAsCjs --config rollup.config.js",
     "lint-staged": "lint-staged",
     "prepare": "husky install",
-    "prepulishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
     "dist"
