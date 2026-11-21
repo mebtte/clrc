@@ -188,4 +188,10 @@ describe('parseEnhanced', () => {
   test('parse enhanced without error', () => {
     expect(parseEnhanced(lyric)).toEqual(parsedLyric);
   });
+
+  test('parses CRLF line endings', () => {
+    const windowsLyric = lyric.replace(/\n/g, '\r\n');
+
+    expect(parseEnhanced(windowsLyric)).toEqual(parsedLyric);
+  });
 });

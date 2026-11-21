@@ -37,4 +37,14 @@ describe('parse', () => {
   test('parse without error', () => {
     expect(parse(lyric)).toEqual(parsedLyric);
   });
+
+  test('parses CRLF line endings', () => {
+    const windowsLyric = lyric.replace(/\n/g, '\r\n');
+
+    expect(parse(windowsLyric)).toEqual(parsedLyric);
+    expect(parse(`${windowsLyric}\r\n`)).toEqual([
+      ...parsedLyric,
+      { lineNumber: 4, raw: '', type: 'invalid' },
+    ]);
+  });
 });
