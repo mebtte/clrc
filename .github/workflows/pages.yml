@@ -2,33 +2,44 @@ on:
   push:
     branches:
       - master
+permissions:
+  contents: read
+  pages: read
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-node@main
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version: lts/*
+      - uses: actions/configure-pages@v6.0.0
 
-      - name: build clrc
+      - name: Build clrc
         run: |
           npm ci
           npm run build
 
-      - name: build playground and deploy to pages
+      - name: Build playground
+        working-directory: playground
         run: |
-          cd playground
-
           npm install --legacy-peer-deps
           npm run build
-          cd build
 
-          git init
-          git config --local user.name mebtte
-          git config --local user.email hi@mebtte.com
-          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/mebtte/clrc.git
-          git switch -c gh-pages
-          git add -A
-          git commit -m "auto deploy"
-          git push origin gh-pages -f
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: playground/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Grant Pages write access and OIDC only to the deployment job.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5.0.1
