@@ -20,7 +20,8 @@ function parse<MetadataKey extends string>(
     InvalidLine | MetadataLine<MetadataKey> | LyricLine
   > = [];
 
-  const lines = lrc.split('\n');
+  // Consume the carriage return in Windows line endings before matching lines.
+  const lines = lrc.split(/\r?\n/);
   for (let i = 0, { length } = lines; i < length; i += 1) {
     const raw = lines[i];
 
